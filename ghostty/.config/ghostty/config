@@ -1,0 +1,48 @@
+# Тема (поправим имя после list-themes)
+theme = Poimandres Storm
+
+# Шрифт
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+
+# Окно
+window-padding-x = 8
+window-padding-y = 8
+window-padding-color = extend
+window-save-state = always
+window-decoration = false
+
+# Курсор
+cursor-style = bar
+cursor-style-blink = true
+
+# Создание сплитов
+keybind = ctrl+shift+e=new_split:right
+keybind = ctrl+shift+d=new_split:down
+keybind = ctrl+shift+x=close_surface
+
+# навигация между сплитами
+keybind = ctrl+shift+left=goto_split:left
+keybind = ctrl+shift+right=goto_split:right
+keybind = ctrl+shift+up=goto_split:top
+keybind = ctrl+shift+down=goto_split:bottom
+unfocused-split-opacity = 0.7
+
+# SSH (важно для серверов — авто terminfo)
+shell-integration = detect
+shell-integration-features = cursor,sudo,title,ssh-env,ssh-terminfo
+
+# Удобства
+mouse-hide-while-typing = true
+clipboard-paste-protection = true
+clipboard-trim-trailing-spaces = true
+confirm-close-surface = true
+background-opacity = 0.88
+copy-on-select = clipboard
+
+# Quick Terminal
+keybind = global:ctrl+grave_accent=toggle_quick_terminal
+quick-terminal-animation-duration = 0.2
+quick-terminal-position = top
+quick-terminal-autohide = true
+
