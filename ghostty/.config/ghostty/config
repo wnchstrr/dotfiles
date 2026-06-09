@@ -1,9 +1,16 @@
-# Тема (поправим имя после list-themes)
-theme = Poimandres Storm
+# Тема 
+theme = TokyoNight Storm 
+
+palette = 2=#3b8e9e
+palette = 10=#3b8e9e
+
+# Shaders
+custom-shader = shaders/cursor_blaze.glsl
+custom-shader-animation = true
 
 # Шрифт
-font-family = "JetBrainsMono Nerd Font"
-font-size = 14
+font-family = "Cascadia Mono NF"
+font-size = 19
 
 # Окно
 window-padding-x = 8
