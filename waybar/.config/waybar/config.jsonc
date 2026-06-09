@@ -1,0 +1,88 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 32,
+    "spacing": 6,
+    "modules-left": ["hyprland/workspaces", "hyprland/window"],
+    "modules-center": ["hyprland/submap", "custom/cava", "mpris", "clock"],
+    "modules-right": ["cpu", "memory", "hyprland/language", "network", "group/volume", "battery", "tray"],
+    "hyprland/workspaces": {
+        "format": "{id}",
+        "on-click": "activate"
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 50,
+        "separate-outputs": true
+    },
+    "hyprland/language": {
+        "format": "{short}",
+        "on-click": "hyprctl switchxkblayout current next"
+    },
+    "custom/cava": {
+        "exec": "~/.config/hypr/Scripts/cava.sh",
+        "format": "{}",
+        "on-click": "playerctl play-pause"
+    },
+    "mpris": {
+        "format": "{player_icon} {dynamic}",
+        "format-paused": "{status_icon} <i>{dynamic}</i>",
+        "player-icons": { "default": "▶", "spotify": "" },
+        "status-icons": { "paused": "" },
+        "dynamic-len": 40,
+        "dynamic-order": ["title", "artist"],
+        "on-click": "playerctl play-pause"
+    },
+    "hyprland/submap": {
+        "format": " {}",
+        "tooltip": false
+    },
+    "clock": {
+        "format": "{:%H:%M  %d.%m}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "on-click": "google-chrome --app=https://calendar.google.com"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "interval": 2,
+        "on-click": "ghostty -e htop"
+    },
+    "memory": {
+        "format": " {percentage}%",
+        "interval": 2,
+        "on-click": "ghostty -e htop"
+    },
+    "network": {
+        "format-wifi": " {signalStrength}%",
+        "format-ethernet": " {ifname}",
+        "format-disconnected": "  off",
+        "tooltip-format": "{ifname}: {ipaddr}",
+        "on-click": "nm-connection-editor"
+    },
+    "pulseaudio": {
+        "format": " {volume}%",
+        "format-muted": "  muted",
+        "format-icons": { "default": ["", "", ""] },
+        "on-click": "pavucontrol",
+        "scroll-step": 5
+    },
+    "pulseaudio/slider": {
+        "min": 0,
+        "max": 100,
+        "orientation": "horizontal"
+    },
+    "group/volume": {
+        "orientation": "horizontal",
+        "modules": ["pulseaudio", "pulseaudio/slider"]
+    },
+    "battery": {
+        "states": { "warning": 30, "critical": 15 },
+        "format": "{icon}  {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-icons": ["", "", "", "", ""]
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 8
+    }
+}
