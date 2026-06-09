@@ -1,0 +1,9 @@
+[/]
+accent-color='slate'
+color-scheme='prefer-dark'
+cursor-size=24
+cursor-theme='Bibata-Modern-Classic'
+gtk-theme='Tokyonight-Dark-Storm'
+icon-theme='Papirus-Dark'
+show-battery-percentage=true
+toolkit-accessibility=false
