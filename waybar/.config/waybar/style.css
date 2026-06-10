@@ -11,18 +11,35 @@ window#waybar {
 }
 #workspaces button {
     padding: 0 8px;
-    color: #565f89;
-    background: transparent;
+    color: #c0caf5;
+    background: #24283b;              /* лёгкая подложка */
+    border: 1px solid #414868;        /* тонкая обводка */
+    border-radius: 4px;
+    margin: 2px;
     transition: all 250ms ease-in-out;
+
 }
 #workspaces button.active {
-    color: #24283b;
+    color: #1a1b26;
     background: #7aa2f7;
-    border-radius: 4px;
+    border-color: #7aa2f7;
+    box-shadow: 0 0 6px #7aa2f7;
+
+}
+#workspaces button.urgent {
+    background: #f7768e;     /* окно требует внимания */
+
 }
 #workspaces button:hover {
     color: #7aa2f7;
     background: #292e42;
+
+}
+#workspaces button.empty {
+    color: #565f89; 
+    background: transparent;          /* пустой — плоский, без формы */
+    border-color: transparent;
+
 }
 #window {
     color: #565f89;

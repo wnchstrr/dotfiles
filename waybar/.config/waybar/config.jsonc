@@ -8,7 +8,10 @@
     "modules-right": ["cpu", "memory", "hyprland/language", "network", "group/volume", "battery", "tray"],
     "hyprland/workspaces": {
         "format": "{id}",
-        "on-click": "activate"
+        "on-click": "activate",
+        "persistent-workspaces": {
+            "*": 10
+        }
     },
     "hyprland/window": {
         "format": "{}",
