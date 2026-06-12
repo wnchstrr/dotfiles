@@ -1,0 +1,141 @@
+/* ============================================================
+   TOKYONIGHT STORM — Thunderbird userContent.css
+   Applies to HTML content pages (about:*, internal chrome pages)
+   ============================================================ */
+
+/* ── About pages (about:blank, about:preferences, etc.) ──── */
+@-moz-document url-prefix("about:") {
+  :root, body {
+    background-color: #24283b !important;
+    color: #c0caf5 !important;
+  }
+
+  a { color: #7aa2f7 !important; }
+  a:visited { color: #7dcfff !important; }
+}
+
+/* ── About:preferences — nav sidebar & search header ─────── */
+/*
+   The broad :root/body rule above darkens the main content area but
+   #categories and the top header strip carry their own background-color
+   from the browser's in-content stylesheet.  Override them here and
+   also reset the --in-content-* tokens so sub-components pick up the
+   right colours without needing per-element rules.
+*/
+@-moz-document url-prefix("about:preferences") {
+  :root {
+    --in-content-page-background:          #24283b !important;
+    --in-content-page-color:               #c0caf5 !important;
+    --in-content-sidebar-background:       #1a1b26 !important;
+    --in-content-box-background:           #1f2335 !important;
+    --in-content-border-color:             #414868 !important;
+    --in-content-item-hover:               color-mix(in srgb, #7aa2f7 10%, transparent) !important;
+    --in-content-item-selected:            color-mix(in srgb, #7aa2f7 20%, transparent) !important;
+    --in-content-item-selected-unfocused:  color-mix(in srgb, #7aa2f7 15%, transparent) !important;
+    --in-content-link-color:               #7aa2f7 !important;
+  }
+
+  /* Root cause of grey gaps above/below #categories:
+     .navigation grows only as tall as its content.  The gaps bleed through
+     the un-styled #prefBox flex container behind it.  Fix: paint #prefBox
+     (and body as fallback) the sidebar color; then the content panel sits
+     on top covering its half, and only the sidebar column "bleeds through". */
+  body,
+  #prefBox {
+    background-color: #1a1b26 !important;
+  }
+
+  /* Sidebar wrapper — also stretch it so it fills the flex row height */
+  .navigation {
+    background-color: #1a1b26 !important;
+    min-height: 100% !important;
+    align-self: stretch !important;
+  }
+
+  /* Content panel needs an explicit background so it covers #prefBox's color */
+  #mainPrefPane,
+  .main-content-area,
+  #preferences-pane-container {
+    background-color: #24283b !important;
+  }
+
+  #categories {
+    background-color: #1a1b26 !important;
+    color: #c0caf5 !important;
+    border-inline-end: 1px solid #414868 !important;
+  }
+
+  .category {
+    color: #c0caf5 !important;
+    background-color: transparent !important;
+  }
+
+  .category:hover:not([selected]) {
+    background-color: color-mix(in srgb, #7aa2f7 10%, transparent) !important;
+  }
+
+  .category[selected="true"],
+  .category[selected] {
+    background-color: color-mix(in srgb, #7aa2f7 20%, transparent) !important;
+    color: #7aa2f7 !important;
+  }
+
+  .category-name {
+    color: inherit !important;
+  }
+
+  /* Header strip (contains "Find in Preferences" search box) */
+  #header,
+  .preferences-search,
+  #searchContainer {
+    background-color: #1f2335 !important;
+    border-bottom: 1px solid #414868 !important;
+  }
+
+  #searchInput,
+  #searchstring {
+    background-color: #24283b !important;
+    color: #c0caf5 !important;
+    border-color: #414868 !important;
+    border-radius: 4px !important;
+  }
+
+  #searchInput::placeholder {
+    color: #565f89 !important;
+  }
+
+  /* Inspector-confirmed: sidebar container + its spacer gaps + bottom buttons */
+  #pref-category-box {
+    background-color: #1a1b26 !important;
+  }
+
+  #pref-category-box > spacer {
+    background-color: #1a1b26 !important;
+  }
+
+  #addonsButton,
+  #accountManagerButton {
+    background-color: #1a1b26 !important;
+    color: #c0caf5 !important;
+  }
+
+  #addonsButton > label,
+  #accountManagerButton > label {
+    color: #c0caf5 !important;
+  }
+
+  #addonsButton:hover,
+  #accountManagerButton:hover {
+    background-color: #24283b !important;
+  }
+}
+
+/* ── New tab / account central page ─────────────────────── */
+@-moz-document url("about:accountcentral"),
+               url("about:blank"),
+               url-prefix("chrome://messenger/content/") {
+  :root, body {
+    background-color: #24283b !important;
+    color: #c0caf5 !important;
+  }
+}

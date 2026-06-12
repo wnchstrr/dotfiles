@@ -1,0 +1,1008 @@
+/* ============================================================
+   TOKYONIGHT STORM — Thunderbird userChrome.css
+   TB 140 ESR (snap), Supernova UI
+   Profile: ~/.thunderbird/5wj6fmke.default/
+   ============================================================
+   SELECTOR STABILITY GUIDE (at end of file)
+   ============================================================ */
+
+/* ── 0. PALETTE VARIABLES ────────────────────────────────── */
+:root {
+  --tn-bg:      #24283b;
+  --tn-bg-dark: #1a1b26;
+  --tn-bg-alt:  #1f2335;
+  --tn-fg:      #c0caf5;
+  --tn-muted:   #565f89;
+  --tn-blue:    #7aa2f7;
+  --tn-cyan:    #7dcfff;
+  --tn-border:  #414868;
+  --tn-warn:    #e0af68;
+  --tn-crit:    #f7768e;
+  --tn-green:   #9ece6a;
+
+  /* LWT (lightweight theme) variables — highest-impact overrides */
+  --lwt-accent-color:                   var(--tn-bg-dark) !important;
+  --lwt-text-color:                     var(--tn-fg)      !important;
+  --toolbar-bgcolor:                    var(--tn-bg)      !important;
+  --toolbar-color:                      var(--tn-fg)      !important;
+  --toolbarbutton-hover-background:     color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+  --toolbarbutton-active-background:    color-mix(in srgb, var(--tn-blue) 25%, transparent) !important;
+  --tabs-border-color:                  var(--tn-border)  !important;
+  --tab-selected-bgcolor:               var(--tn-bg)      !important;
+  --tab-selected-color:                 var(--tn-fg)      !important;
+  --lwt-toolbar-field-background-color: var(--tn-bg-alt)  !important;
+  --lwt-toolbar-field-color:            var(--tn-fg)      !important;
+  --lwt-toolbar-field-border-color:     var(--tn-border)  !important;
+  --sidebar-background-color:           var(--tn-bg-alt)  !important;
+  --sidebar-text-color:                 var(--tn-fg)      !important;
+  --sidebar-border-color:               var(--tn-border)  !important;
+
+  /* Panel / popup / arrowpanel tokens — picked up by XUL menupopup internals */
+  --arrowpanel-background:              var(--tn-bg-alt)  !important;
+  --arrowpanel-color:                   var(--tn-fg)      !important;
+  --arrowpanel-border-color:            var(--tn-border)  !important;
+  --panel-background:                   var(--tn-bg-alt)  !important;
+  --panel-color:                        var(--tn-fg)      !important;
+  --panel-border-color:                 var(--tn-border)  !important;
+}
+
+/* ── 1. ROOT WINDOW ──────────────────────────────────────── */
+#messengerWindow,
+#messenger,
+#tabmail,
+#tabpanelcontainer,
+#mail-deck,
+.tabpanels-container {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Kill any header banner images */
+#messengerWindow:-moz-lwtheme {
+  background-image: none !important;
+}
+
+/* ── 2. SPACES TOOLBAR (left icon strip, TB 115+) ────────── */
+/* ⚠ If no icon strip appears, try: #spacesToolbar or #spaces-toolbar */
+.spaces-toolbar {
+  background-color: var(--tn-bg-dark) !important;
+  border-right: 1px solid var(--tn-border) !important;
+}
+
+.spaces-toolbar-button {
+  color: var(--tn-muted) !important;
+  border-radius: 6px !important;
+  fill: var(--tn-muted) !important;
+}
+
+.spaces-toolbar-button:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+}
+
+.spaces-toolbar-button[aria-checked="true"],
+.spaces-toolbar-button[checked="true"],
+.spaces-toolbar-button.current {
+  color: var(--tn-blue) !important;
+  fill: var(--tn-blue) !important;
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+}
+
+/* ── 3. UNIFIED TOOLBAR / NAVIGATION ────────────────────── */
+/* Source-verified (messenger.css + unifiedToolbar.css):
+   - #navigation-toolbox wraps #titlebar (with tab bar) + unified-toolbar
+   - Without [lwtheme] attr it falls back to GTK grey — override directly
+   - unified-toolbar is a custom ELEMENT (no dot), not a class
+   - #titlebar holds window controls on Linux with customtitlebar */
+#navigation-toolbox,
+#titlebar {
+  background-color: var(--tn-bg-dark) !important;
+  background-image: none !important;
+  color: var(--tn-fg) !important;
+}
+
+unified-toolbar,
+#unifiedToolbarContainer,
+#unifiedToolbar {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+}
+
+#unifiedToolbarContent toolbarbutton,
+.unified-toolbar-button {
+  background-color: transparent !important;
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+}
+
+.unified-toolbar-button:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+}
+
+/* Menu bar */
+#mail-toolbar-menubar2 {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+}
+
+menubar > menu,
+menubar > menu > .menu-text {
+  color: var(--tn-fg) !important;
+}
+
+/* Search bar */
+.searchbar-container,
+.search-bar,
+#searchInput {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 4px !important;
+}
+
+/* ── 4. TAB BAR ──────────────────────────────────────────── */
+/* Source-verified (tabmail.css): #tabs-toolbar uses background-image gradient
+   with a 15% white overlay — must remove it or it paints over background-color */
+#tabs-toolbar,
+#tabbar-toolbar {
+  background-color: var(--tn-bg-dark) !important;
+  background-image: none !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+  box-shadow: none !important;
+}
+
+.tabmail-tab .tab-background {
+  background-color: transparent !important;
+}
+
+.tabmail-tab .tab-label {
+  color: var(--tn-muted) !important;
+}
+
+.tabmail-tab:is([selected], [visuallyselected]) .tab-background {
+  background-color: var(--tn-bg) !important;
+  border-top: 2px solid var(--tn-blue) !important;
+}
+
+.tabmail-tab:is([selected], [visuallyselected]) .tab-label {
+  color: var(--tn-fg) !important;
+}
+
+.tabmail-tab:hover:not([selected]) .tab-background {
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, transparent) !important;
+}
+
+.tab-close-button {
+  color: var(--tn-muted) !important;
+  fill: var(--tn-muted) !important;
+  opacity: 0 !important;
+}
+
+.tabmail-tab:hover .tab-close-button,
+.tabmail-tab[selected] .tab-close-button {
+  opacity: 1 !important;
+}
+
+/* ── 5. FOLDER PANE / SIDEBAR ────────────────────────────── */
+/* ⚠ TB 128+ restructured folder pane; inspect if unaffected */
+#folderPane,
+#accountCentralFolderPane {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-right: 1px solid var(--tn-border) !important;
+}
+
+.folder-pane-header,
+#folderPaneHeader {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+  padding: 4px 8px !important;
+}
+
+/* Account rows */
+.folderTreeRow[data-server-type],
+.container-line[data-level="0"] {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+  font-size: 0.75em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+}
+
+/* All folder rows */
+.folderTreeRow,
+.container-line {
+  background-color: transparent !important;
+  color: var(--tn-fg) !important;
+}
+
+.folderTreeRow:hover,
+.container-line:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, transparent) !important;
+}
+
+.folderTreeRow[selected="true"],
+.container-line[selected="true"] {
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+  color: var(--tn-blue) !important;
+}
+
+/* Unread count badge */
+.folder-count-badge,
+.unread-count {
+  background-color: var(--tn-blue) !important;
+  color: var(--tn-bg-dark) !important;
+  border-radius: 10px !important;
+  font-size: 0.7em !important;
+  padding: 1px 5px !important;
+}
+
+/* ── 6. MESSAGE LIST (thread pane) ───────────────────────── */
+#threadTree,
+#threadPane {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Column headers */
+#threadTree treecol,
+#threadTree .tree-column-header {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+  border-right: 1px solid var(--tn-border) !important;
+}
+
+/* Row states */
+.threadTreeRow {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+.threadTreeRow:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, transparent) !important;
+}
+
+.threadTreeRow[selected="true"],
+.threadTreeRow:is([selected]) {
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+  color: var(--tn-fg) !important;
+  outline: none !important;
+}
+
+/* Unread messages — bold sender */
+.threadTreeRow[data-properties~="unread"] .subject-line-unread,
+.threadTreeRow[data-properties~="unread"] .sender {
+  font-weight: bold !important;
+  color: var(--tn-fg) !important;
+}
+
+/* ── 7. MESSAGE HEADER (reading pane) ────────────────────── */
+#expandedHeaderView,
+.message-header-view,
+#msgHeaderView {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+.header-label,
+.message-header-label {
+  color: var(--tn-muted) !important;
+}
+
+.mime-address-name,
+.header-from a,
+.header-recipient a,
+.message-header-field-value a {
+  color: var(--tn-blue) !important;
+}
+
+/* Subject line in header */
+#expandedsubjectBox,
+.header-subject {
+  color: var(--tn-fg) !important;
+  font-weight: 600 !important;
+}
+
+/* ── 8. MENUS AND POPUPS ─────────────────────────────────── */
+/*
+   Root cause of menus ignoring background-color: Gecko paints menupopup
+   with native GTK appearance by default (appearance: auto).  While that
+   native path is active, background-color / color are completely ignored
+   regardless of specificity or !important.  The fix is to set
+   appearance: none first, then all other properties take effect.
+
+   ID selectors added for the six confirmed menu IDs so specificity beats
+   any UA-sheet rule that targets menupopup by tag only.
+*/
+
+/* Step 1 — defeat native appearance on every menupopup */
+menupopup,
+menupopup#menu_FilePopup,
+menupopup#menu_EditPopup,
+menupopup#menu_View_Popup,
+menupopup#menu_GoPopup,
+menupopup#messageMenuPopup,
+menupopup#menu_Event_Task_Popup {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 6px !important;
+  padding: 4px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
+}
+
+/* Step 2 — reset native appearance on each item type */
+menuitem,
+menu,
+menupopup > menuitem,
+menupopup > menu {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: transparent !important;
+  color: var(--tn-fg) !important;
+  border-radius: 4px !important;
+  padding-block: 3px !important;
+}
+
+/* :hover covers mouse; [_moz-menuactive] covers keyboard navigation */
+menuitem:hover:not([disabled="true"]),
+menu:hover:not([disabled="true"]),
+menuitem[_moz-menuactive="true"]:not([disabled="true"]),
+menu[_moz-menuactive="true"]:not([disabled="true"]) {
+  background-color: var(--tn-blue) !important;
+  color: var(--tn-bg-dark) !important;
+}
+
+menuitem[disabled="true"],
+menu[disabled="true"] {
+  color: var(--tn-muted) !important;
+  opacity: 0.6 !important;
+}
+
+menuseparator {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  border-top: 1px solid var(--tn-border) !important;
+  border-bottom: none !important;
+  margin: 3px 0 !important;
+  padding: 0 !important;
+}
+
+/* Checkmark / accelerator / submenu-arrow icons */
+.menu-iconic-left,
+.menu-accel,
+.menu-right {
+  color: var(--tn-muted) !important;
+}
+
+/* Panels (autocomplete, arrowpanel dropdowns) */
+panel[type="arrow"],
+panel[type="autocomplete"],
+.panel-arrowcontainer {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 6px !important;
+  padding: 4px !important;
+}
+
+/* ── 9. STATUS BAR ───────────────────────────────────────── */
+#status-bar,
+.statusbar {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+  border-top: 1px solid var(--tn-border) !important;
+  min-height: 20px !important;
+}
+
+/* ── 10. SPLITTERS ───────────────────────────────────────── */
+splitter {
+  background-color: var(--tn-border) !important;
+  border: none !important;
+  min-width: 1px !important;
+  min-height: 1px !important;
+}
+
+splitter:hover {
+  background-color: var(--tn-blue) !important;
+  transition: background-color 0.15s !important;
+}
+
+/* ── 11. SCROLLBARS ──────────────────────────────────────── */
+scrollbar {
+  background-color: transparent !important;
+  width: 8px !important;
+}
+
+scrollbar thumb {
+  background-color: var(--tn-border) !important;
+  border-radius: 4px !important;
+  min-height: 24px !important;
+}
+
+scrollbar thumb:hover {
+  background-color: var(--tn-muted) !important;
+}
+
+scrollbar scrollbarbutton {
+  display: none !important;
+}
+
+/* ── 12. CALENDAR — PRIMARY SURFACE ─────────────────────── */
+/*
+   ⚠ CALENDAR SELECTOR NOTES:
+   - TB 115–140 uses Web Components (calendar-month-view etc.)
+   - Shadow DOM means ::part() or :host selectors may be needed for inner elements
+   - The rules below target the light-DOM wrappers and commonly exposed attributes
+   - If a section has no effect, open the Browser Toolbox and inspect that element
+*/
+
+/* Calendar tab/panel root */
+#calendarTabPanel,
+.calendar-tab-panel,
+#calendarDisplayDeck,
+#calendar-view-box {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Top navigation bar (prev/next buttons, month/year label) */
+.navigation-inner-box,
+.navigation-heading,
+.calendarNavigationButton,
+calendar-navigation {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+.navigation-heading {
+  font-weight: 600 !important;
+  color: var(--tn-fg) !important;
+}
+
+/* ── Month view ──────────────────────────────────────────── */
+calendar-month-view {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Week-number badges on the left edge of each week row */
+.calendar-week-label,
+td.calendar-week-label,
+.calendar-month-day-box-week-label,
+.calMonthWeekLabel {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-muted) !important;
+  border: none !important;
+  border-radius: 3px !important;
+  font-size: 0.72em !important;
+  font-weight: 600 !important;
+}
+
+/* Day-of-week header row (Sun Mon Tue ...)
+   Source-verified: custom element is "calendar-day-label" (no dot).
+   Text is in a child span ".calendar-day-label-name". */
+calendar-day-label {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+}
+
+.calendar-day-label-name {
+  color: var(--tn-fg) !important;
+  font-size: 0.72em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+}
+
+/* Day cells */
+.calendar-month-day-box,
+calendar-month-day-box {
+  background-color: var(--tn-bg) !important;
+  border: 1px solid var(--tn-border) !important;
+  color: var(--tn-fg) !important;
+  min-height: 80px !important;
+}
+
+/* Day number inside each cell */
+.calendar-month-day-box-date,
+.calendar-month-day-box-date-label {
+  color: var(--tn-muted) !important;
+  font-size: 0.8em !important;
+  padding: 4px 6px !important;
+}
+
+/* Today's cell */
+.calendar-month-day-box[rel="today"],
+calendar-month-day-box[rel="today"],
+.calendar-month-day-box.today,
+calendar-month-day-box.today {
+  background-color: var(--tn-bg-alt) !important;
+  border: 1px solid var(--tn-blue) !important;
+}
+
+.calendar-month-day-box[rel="today"] .calendar-month-day-box-date,
+calendar-month-day-box[rel="today"] .calendar-month-day-box-date {
+  color: var(--tn-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* Off-month (prev/next month's days shown greyed) */
+.calendar-month-day-box[relation="other"],
+calendar-month-day-box[relation="other"],
+.calendar-month-day-box.out-of-range {
+  background-color: var(--tn-bg-dark) !important;
+  opacity: 0.45 !important;
+}
+
+/* Selected day cell */
+.calendar-month-day-box[selected="true"],
+calendar-month-day-box[selected="true"] {
+  border: 2px solid var(--tn-blue) !important;
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, var(--tn-bg)) !important;
+}
+
+/* ── Calendar event boxes ────────────────────────────────── */
+/*
+   ⚠ These are the most version-sensitive selectors.
+   In TB 128+ events are inside shadow DOM of calendar-month-day-box.
+   If events look unstyled, open the Inspector and look for:
+     - calendar-event-box
+     - .calendar-item-container
+     - .calendar-color-box
+   and report the actual element/class hierarchy.
+*/
+calendar-event-box,
+.calendar-event-box {
+  border-radius: 3px !important;
+  font-size: 0.78em !important;
+  overflow: hidden !important;
+}
+
+.calendar-color-box,
+.calendar-item-container {
+  background-color: var(--tn-blue) !important;
+  color: var(--tn-bg-dark) !important;
+  border: none !important;
+  border-radius: 3px !important;
+  padding: 1px 4px !important;
+}
+
+calendar-event-box:hover .calendar-color-box,
+.calendar-event-box:hover .calendar-color-box {
+  background-color: var(--tn-cyan) !important;
+  cursor: pointer !important;
+}
+
+calendar-event-box[selected="true"] .calendar-color-box,
+.calendar-event-box[selected="true"] .calendar-color-box {
+  background-color: var(--tn-cyan) !important;
+  outline: 2px solid var(--tn-fg) !important;
+  outline-offset: 1px !important;
+}
+
+/* ── Week / Day view ─────────────────────────────────────── */
+calendar-week-view,
+calendar-day-view {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Scrollable area inside week/day views */
+.multiday-view-inner-container,
+.calendar-time-bar-container {
+  background-color: var(--tn-bg) !important;
+}
+
+/* Time labels on left side */
+.calendar-time-bar-label,
+.calendar-hour-label {
+  color: var(--tn-muted) !important;
+  font-size: 0.72em !important;
+  border-right: 1px solid var(--tn-border) !important;
+}
+
+/* Hour grid lines */
+.calendar-time-bar-box,
+.calendar-event-column-linebox,
+.calendar-hour-separator {
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+.calendar-halfhour-separator,
+.calendar-halfhour-box {
+  border-bottom: 1px solid color-mix(in srgb, var(--tn-border) 40%, transparent) !important;
+}
+
+/* Column area backgrounds */
+.calendar-column-bg,
+.multiday-column-bg {
+  background-color: var(--tn-bg) !important;
+  border-left: 1px solid var(--tn-border) !important;
+}
+
+/* Day column headers in week/day view
+   Source-verified: TB 140 uses .day-column-heading (not .calendar-week-day-col-header).
+   Top-left corner cell is .multiday-header-corner. */
+.day-column-heading,
+.multiday-header-corner {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+/* Today's column header — source uses .day-column-today as parent class */
+.day-column-today .day-column-heading {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-blue) !important;
+  font-weight: 700 !important;
+  border-bottom-color: var(--tn-blue) !important;
+}
+
+/* "Now" indicator line */
+.calendar-now-indicator-line,
+.calendar-time-indicator,
+.now-line {
+  border-top: 2px solid var(--tn-crit) !important;
+  opacity: 0.85 !important;
+}
+
+/* ── Mini month (sidebar calendar widget) ────────────────── */
+calendar-minimonth,
+.minimonth {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 4px !important;
+}
+
+.minimonth-header,
+.minimonth-month-name {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+  font-weight: 600 !important;
+}
+
+.minimonth-nav-btns,
+.minimonth-month-nav,
+.minimonth-nav-section {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+}
+
+/* Kill native appearance on the prev/next/today buttons inside the nav strip */
+.minimonth-nav-btns button,
+.minimonth-month-nav button,
+calendar-minimonth .minimonth-header button {
+  appearance: none !important;
+  -moz-appearance: none !important;
+  background-color: transparent !important;
+  color: var(--tn-muted) !important;
+  fill: var(--tn-muted) !important;
+  border: none !important;
+}
+
+.minimonth-nav-btns button:hover,
+.minimonth-month-nav button:hover,
+calendar-minimonth .minimonth-header button:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+}
+
+.minimonth-day {
+  color: var(--tn-fg) !important;
+  border-radius: 50% !important;
+}
+
+.minimonth-day:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+}
+
+.minimonth-day[selected="true"],
+td.minimonth-day[aria-selected="true"] {
+  background-color: var(--tn-blue) !important;
+  color: var(--tn-bg-dark) !important;
+  font-weight: 700 !important;
+}
+
+.minimonth-day[today="true"],
+td.minimonth-day[rel="today"] {
+  background-color: color-mix(in srgb, var(--tn-blue) 25%, var(--tn-bg-alt)) !important;
+  color: var(--tn-blue) !important;
+  font-weight: 700 !important;
+}
+
+/* Week-number column — inspector confirmed: th:nth-child(1) in each tr */
+table.minimonth-calendar tr > th:first-child,
+.minimonth-week {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-muted) !important;
+  border: none !important;
+  border-radius: 3px !important;
+  font-size: 0.72em !important;
+  font-weight: 600 !important;
+  padding-inline: 3px !important;
+}
+
+.minimonth-dow {
+  color: var(--tn-muted) !important;
+  font-size: 0.72em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── Calendar sidebar outer containers ──────────────────── */
+/*
+   #calMinimonthBox  — the XUL hbox wrapping calendar-minimonth
+   #minimonth-pane   — the panel/vbox containing minimonth + New Event area
+   #ltnSidebar       — root of the Lightning sidebar (older TB name)
+   These are parent elements; if they stay grey, corners/gaps around the
+   minimonth and button row show through.
+*/
+#calMinimonthBox,
+#minimonth-pane,
+#ltnSidebar,
+#ltnSidebar > * {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* "New Event" / "New Task" button toolbar at the top of the calendar sidebar */
+#calSidebarHeader,
+.cal-sidebar-header,
+.calendar-sidepanel-header,
+#ltnNewEventButton-container,
+#calNewEventButton,
+#calNewTaskButton {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+/* ── Calendar list sidebar (which calendars are shown) ───── */
+#calendar-list-pane,
+.calendar-list-pane,
+#calSidebar,
+.cal-sidebar {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-right: 1px solid var(--tn-border) !important;
+}
+
+.calendar-list-header,
+.calendarListHeader {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-muted) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+  font-size: 0.72em !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  padding: 6px 8px !important;
+}
+
+.calendar-list-item,
+.calendarListItem,
+.calendar-displayed {
+  background-color: transparent !important;
+  color: var(--tn-fg) !important;
+}
+
+.calendar-list-item:hover,
+.calendarListItem:hover {
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, transparent) !important;
+}
+
+.calendar-list-item[selected],
+.calendarListItem[selected] {
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+}
+
+/* ── 13. UNIFINDER — event list bottom panel ─────────────── */
+/* Source-verified IDs from calendar-unifinder.css:
+   #bottom-events-box  → outer container
+   #unifinder-searchBox → search bar row
+   #unifinder-search-results-tree → the XUL tree (Title/Start/End/Category cols)
+   treecol elements inside that tree hold the grey column headers */
+
+#bottom-events-box {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+}
+
+#unifinder-searchBox {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+#unifinder-search-results-tree {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* Column headers (Title / Start / End / Category / ...) */
+#unifinder-search-results-tree treecol,
+#unifinder-search-results-tree treecolpicker {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-inline-end: 1px solid var(--tn-border) !important;
+  border-block-end: 1px solid var(--tn-border) !important;
+}
+
+/* Row cells */
+#unifinder-search-results-tree treechildren::-moz-tree-row {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+#unifinder-search-results-tree treechildren::-moz-tree-row(hover) {
+  background-color: color-mix(in srgb, var(--tn-blue) 10%, transparent) !important;
+}
+
+#unifinder-search-results-tree treechildren::-moz-tree-row(selected, focus) {
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+}
+
+#unifinder-search-results-tree treechildren::-moz-tree-cell-text {
+  color: var(--tn-fg) !important;
+}
+
+#unifinder-search-results-tree treechildren::-moz-tree-cell-text(selected, focus) {
+  color: var(--tn-fg) !important;
+}
+
+/* ── 13b. CALENDAR TOOLBAR CONTROLS (inspected IDs) ─────── */
+/* View-navigation buttons: prev/next/today + view toggle strip */
+#previousViewButton,
+#nextViewButton,
+#todayViewButton {
+  color: var(--tn-muted) !important;
+  fill: var(--tn-muted) !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+#previousViewButton:hover,
+#nextViewButton:hover,
+#todayViewButton:hover {
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+  background-color: color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+}
+
+#viewToggle {
+  background-color: var(--tn-bg-alt) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 4px !important;
+}
+
+#viewToggle > * {
+  color: var(--tn-muted) !important;
+  fill: var(--tn-muted) !important;
+  background-color: transparent !important;
+}
+
+#viewToggle > [selected="true"],
+#viewToggle > [checked="true"] {
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+  background-color: color-mix(in srgb, var(--tn-blue) 20%, transparent) !important;
+}
+
+/* Unifinder: search input + event-type filter */
+#unifinder-search-field {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 4px !important;
+}
+
+#event-filter-menulist {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border: 1px solid var(--tn-border) !important;
+  border-radius: 4px !important;
+}
+
+/* Minimonth header row + prev/next buttons */
+#calMinimonth > div:first-child {
+  background-color: var(--tn-bg-dark) !important;
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+}
+
+#calMinimonth button {
+  color: var(--tn-muted) !important;
+  fill: var(--tn-muted) !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+#calMinimonth button:hover {
+  color: var(--tn-fg) !important;
+  fill: var(--tn-fg) !important;
+  background-color: color-mix(in srgb, var(--tn-blue) 15%, transparent) !important;
+}
+
+/* ── 14. ADDRESS BOOK (bonus) ────────────────────────────── */
+#addressBookTabPanel,
+.addressbook-pane {
+  background-color: var(--tn-bg) !important;
+  color: var(--tn-fg) !important;
+}
+
+/* ── 14. NOTIFICATIONS / ALERTS ──────────────────────────── */
+notification-bar,
+.notificationbox-stack,
+notification {
+  background-color: var(--tn-bg-alt) !important;
+  color: var(--tn-fg) !important;
+  border-bottom: 1px solid var(--tn-border) !important;
+}
+
+notification[type="warning"] {
+  background-color: color-mix(in srgb, var(--tn-warn) 20%, var(--tn-bg-alt)) !important;
+  border-bottom-color: var(--tn-warn) !important;
+}
+
+notification[type="critical"],
+notification[type="error"] {
+  background-color: color-mix(in srgb, var(--tn-crit) 20%, var(--tn-bg-alt)) !important;
+  border-bottom-color: var(--tn-crit) !important;
+}
+
+notification[type="success"] {
+  background-color: color-mix(in srgb, var(--tn-green) 20%, var(--tn-bg-alt)) !important;
+  border-bottom-color: var(--tn-green) !important;
+}
+
+/* ============================================================
+   SELECTOR STABILITY GUIDE
+   ============================================================
+
+   STABLE (unlikely to change between 115–140):
+     :root, #messengerWindow, #tabs-toolbar, menupopup, menuitem,
+     splitter, scrollbar, #status-bar
+
+   MODERATELY STABLE:
+     .spaces-toolbar, .spaces-toolbar-button         — introduced TB 115
+     #unifiedToolbar, .unified-toolbar               — introduced TB 115
+     #folderPane, .folderTreeRow                     — restructured TB 128
+     .threadTreeRow                                  — standard since TB 78
+     calendar-month-view, calendar-week-view         — web components, TB 102+
+
+   FRAGILE (inspect if broken):
+     calendar-event-box, .calendar-color-box         — may be in shadow DOM
+     .calendar-month-day-box (attribute names)       — rel="today" vs today="true"
+     .minimonth-day (attribute names)                — today= vs rel= varies
+     .calendar-now-indicator-line                    — renamed each major version
+
+   ============================================================
+   HOW TO OPEN THE BROWSER TOOLBOX (inspect chrome UI)
+   ============================================================
+
+   1. In Thunderbird: open about:config
+      Set these two prefs to TRUE:
+        devtools.chrome.enabled
+        devtools.debugger.remote-enabled
+
+   2. Close about:config.
+
+   3. Press Ctrl + Alt + Shift + I  (or via Tools → Developer Tools →
+      Browser Toolbox — accept the remote-debugging prompt)
+
+   4. In the Browser Toolbox, the Inspector tab lets you click any
+      element in the Thunderbird window to see its full selector path.
+
+   5. For calendar elements: make sure the Calendar tab is visible
+      before opening the toolbox. Click the element you want styled,
+      copy the selector from the Inspector's "Rules" panel, then
+      add an override here with !important.
+
+   ============================================================ */
