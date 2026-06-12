@@ -1,8 +1,11 @@
 # Тема 
 theme = TokyoNight Storm 
 
-palette = 2=#3b8e9e
-palette = 10=#3b8e9e
+# ANSI palette overrides (Tokyonight Storm tweaks)
+palette = 2=#3b8e9e     # green (cava, git added)
+palette = 10=#3b8e9e    # bright green
+palette = 3=#bb9af7     # WARNING — yellow->magenta (эстетика, не семантика!)
+palette = 11=#bb9af7    # bright yellow (Gtk-WARNING) -> magenta
 
 # Shaders
 custom-shader = shaders/cursor_blaze.glsl
