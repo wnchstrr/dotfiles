@@ -92,7 +92,7 @@ cd ~/dotfiles
 | ghostty  | `ghostty`; font **Cascadia Mono NF** (in `~/.local/share/fonts/`) |
 | zsh      | `zsh`, [oh-my-zsh](https://ohmyz.sh/), [powerlevel10k](https://github.com/romkatv/powerlevel10k), `fzf`, `eza`, `bat` |
 | tmux     | `tmux`; TPM (cloned by install.sh) |
-| hypr     | `hyprland`, `swaybg`, `swaync`, `hyprshot`, `hyprlock`, `hypridle`, `hyprpicker`, `rofi` |
+| hypr     | `hyprland`, `hyprpaper`, `swaync`, `hyprshot`, `hyprlock`, `hypridle`, `hyprpicker`, `rofi` |
 | waybar   | `waybar`; `cava` (optional — audio visualizer module) |
 | rofi     | `rofi` (Wayland build) |
 | GTK theme| **Tokyonight-Dark-Storm** theme, **Papirus-Dark** icons, **Bibata-Modern-Classic** cursor |
@@ -161,6 +161,6 @@ After editing a config the symlink already points at the repo file — just
 - GTK theme lives in dconf (binary), not a file — dumped to `gtk-interface.dconf`,
   restored by install.sh. Re-dump after changing it:
   `dconf dump /org/gnome/desktop/interface/ > gtk-interface.dconf`
-- `hyprpaper.conf` is intentionally absent — wallpaper is set via `swaybg`.
+- `hyprpaper.conf` sets the wallpaper; `random-wall.sh` (bound to `$mod SHIFT W`) picks a random one from `~/Pictures/Wallpapers` + `~/Pictures/walls`, persisting the choice via `source = ~/.cache/hypr/current-wall.conf`.
 - ghostty ANSI palette is tweaked (`palette = 2/10` green, `3/11` yellow→magenta) —
   see comments in `ghostty/.config/ghostty/config`.
